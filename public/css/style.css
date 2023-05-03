@@ -18,3 +18,7 @@ body{
     place-content: center;
     padding: 1rem;
 }
+h1>span{
+    color:rgb(221, 60, 19);
+
+}
