@@ -28,28 +28,32 @@ const getAllNotes = asyncHandler(async (req, res) => {
 // @desc Create new note
 // @route POST /notes
 // @access Private
-const createNewNote = asyncHandler(async (req, res) => {
+const createNewNote = asyncHandler(async(req, res) => {
     const { user, title, text } = req.body
-
     // Confirm data
     if (!user || !title || !text) {
-        return res.status(400).json({ message: 'All fields are required' })
+        res.status(400).json({ message: 'All fields are required' })
     }
-
+    
     // Check for duplicate title
     const duplicate = await Note.findOne({ title }).lean().exec()
 
     if (duplicate) {
-        return res.status(409).json({ message: 'Duplicate note title' })
+        res.status(409).json({ message: 'Duplicate note title' })
     }
 
+    console.log(req.body)
     // Create and store the new user 
-    const note = await Note.create({ user, title, text })
+    const noteObject={user,title,text}
+
+    const note = await Note.create(noteObject)
+    console.log(req.body)
 
     if (note) { // Created 
-        return res.status(201).json({ message: 'New note created' })
+        res.status(201).json({ message: 'New note created' })
+        console.log(req.body)
     } else {
-        return res.status(400).json({ message: 'Invalid note data received' })
+        res.status(400).json({ message: 'Invalid note data received' })
     }
 
 })
@@ -57,7 +61,7 @@ const createNewNote = asyncHandler(async (req, res) => {
 // @desc Update a note
 // @route PATCH /notes
 // @access Private
-const updateNote = asyncHandler(async (req, res) => {
+const updateNote = asyncHandler(async(req, res) => {
     const { id, user, title, text, completed } = req.body
 
     // Confirm data
@@ -93,7 +97,7 @@ const updateNote = asyncHandler(async (req, res) => {
 // @desc Delete a note
 // @route DELETE /notes
 // @access Private
-const deleteNote = asyncHandler(async (req, res) => {
+const deleteNote = asyncHandler(async(req, res) => {
     const { id } = req.body
 
     // Confirm data
