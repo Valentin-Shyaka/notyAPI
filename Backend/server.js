@@ -41,7 +41,7 @@ app.all('*',(req,res)=>{
 app.use(errorHandler)
 
 mongoose.connection.once('open',()=>{
-    console.log('connection to MongoDB')
+    console.log('connected to MongoDB')
     app.listen(PORT,()=>console.log("server running on port "+PORT))
 })
 mongoose.connection.on('error',err =>{
