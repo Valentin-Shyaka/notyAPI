@@ -11,6 +11,7 @@ const connectDB= require('./config/dbConn')
 const mongoose= require('mongoose')
 const {logevents}= require('./middleware/logger')
 const errorHandler = require('./middleware/errorHandler')
+const { removeAllListeners } = require('process')
 
 console.log(process.env.NODE_ENV)
 
@@ -49,3 +50,4 @@ mongoose.connection.on('error',err =>{
     logevents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`,
     'mongoErrLog.log')
 })
+
